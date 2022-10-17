@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 import 'package:hive/hive.dart';
 import 'package:order_tracker/src/models/hive/hive.dart';
+import 'package:order_tracker/src/utils/orders_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,14 +45,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
+  final dynamic defaultData = {"data": "No data"};
+  dynamic jsonData = {"data": "No data"};
 
   void _incrementCounter() async {
     var ordersBox = await Hive.openBox('OrdersBox');
-    print(ordersBox.get('Order 1').toMap()); // Order 1
+    print(ordersBox.get('Order 1')?.toMap()); // Order 1
+    ordersBox.close();
     // setState(() {
     //   _counter++;
     // });
+  }
+
+  void _clearCache() async {
+    var ordersBox = await Hive.openBox('OrdersBox');
+    ordersBox.clear();
+    setState(() {
+      jsonData = defaultData;
+    });
+    // ordersBox.close();
+  }
+
+  void _addTestData() async {
+    var ordersBox = await Hive.openBox('OrdersBox');
+    setupTestData(ordersBox);
+    setState(() {
+      jsonData = ordersBox.get('Order 1')?.toMap() ?? defaultData;
+    });
   }
 
   @override
@@ -62,10 +83,26 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Developement in progress...',
-            )
+          children: <Widget>[
+            JsonViewer(jsonData),
+            OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                ),
+                onPressed: _clearCache,
+                child: const Text(
+                  'Clear Cache',
+                  style: TextStyle(color: Colors.white),
+                )),
+            OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                ),
+                onPressed: _addTestData,
+                child: const Text(
+                  'Add Test Data',
+                  style: TextStyle(color: Colors.white),
+                ))
           ],
         ),
       ),
