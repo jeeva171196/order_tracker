@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:order_tracker/src/models/hive/hive.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupHive();
   runApp(const MyApp());
 }
 
@@ -39,12 +43,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _incrementCounter() async {
+    var ordersBox = await Hive.openBox('OrdersBox');
+    print(ordersBox.get('Order 1').toMap()); // Order 1
+    // setState(() {
+    //   _counter++;
+    // });
   }
 
   @override
