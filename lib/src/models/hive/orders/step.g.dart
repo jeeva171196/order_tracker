@@ -6,24 +6,24 @@ part of 'step.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StepAdapter extends TypeAdapter<Step> {
+class StepAdapter extends TypeAdapter<ProductionStep> {
   @override
   final int typeId = 2;
 
   @override
-  Step read(BinaryReader reader) {
+  ProductionStep read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Step(
+    return ProductionStep(
       stepId: fields[0] as int,
       description: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Step obj) {
+  void write(BinaryWriter writer, ProductionStep obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)

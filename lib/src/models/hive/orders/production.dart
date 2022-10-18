@@ -19,7 +19,7 @@ class Production {
   DateTime timeStamp;
 
   @HiveField(2)
-  List<Step> steps;
+  List<ProductionStep> steps;
 
   @HiveField(3)
   List<int> bundles;

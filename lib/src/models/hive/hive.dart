@@ -6,7 +6,7 @@ import '../../utils/orders_data.dart';
 import 'orders/orders.dart';
 import 'orders/step.dart';
 
-void setupHive() async {
+Future<bool> setupHive() async {
   var documents = await getApplicationDocumentsDirectory();
   Hive
     ..init(documents.path)
@@ -16,4 +16,5 @@ void setupHive() async {
   var ordersBox = await Hive.openBox<Order>('OrdersBox');
   setupTestData(ordersBox);
   ordersBox.close();
+  return true;
 }

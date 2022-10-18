@@ -23,7 +23,7 @@ class Order {
   int numOfSteps;
 
   @HiveField(3)
-  List<Step> steps;
+  List<ProductionStep> steps;
 
   @HiveField(4)
   List<Production> productions;

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 import 'package:hive/hive.dart';
 import 'package:order_tracker/src/models/hive/hive.dart';
+import 'package:order_tracker/src/utils/constants.dart';
 import 'package:order_tracker/src/utils/orders_data.dart';
+import 'src/features/orders/services/orders.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupHive();
+  await setupHive();
   runApp(const MyApp());
 }
 
@@ -47,30 +49,25 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final dynamic defaultData = {"data": "No data"};
   dynamic jsonData = {"data": "No data"};
+  final Future<OrderService> service = OrderService.getObject();
 
   void _incrementCounter() async {
-    var ordersBox = await Hive.openBox('OrdersBox');
-    print(ordersBox.get('Order 1')?.toMap()); // Order 1
-    ordersBox.close();
-    // setState(() {
-    //   _counter++;
-    // });
+    var order = await (await service).getOrder("Order 1");
+    print(order?.toMap());
   }
 
   void _clearCache() async {
-    var ordersBox = await Hive.openBox('OrdersBox');
-    ordersBox.clear();
+    await (await service).clearAll();
     setState(() {
       jsonData = defaultData;
     });
-    // ordersBox.close();
   }
 
   void _addTestData() async {
-    var ordersBox = await Hive.openBox('OrdersBox');
-    setupTestData(ordersBox);
+    await (await service).addOrder('Order 1', sampleOrderData);
+    var orderData = (await (await service).getOrder('Order 1'))?.toMap();
     setState(() {
-      jsonData = ordersBox.get('Order 1')?.toMap() ?? defaultData;
+      jsonData = orderData ?? defaultData;
     });
   }
 

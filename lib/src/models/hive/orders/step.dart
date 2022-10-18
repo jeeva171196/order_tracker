@@ -3,8 +3,8 @@ import 'package:hive/hive.dart';
 part 'step.g.dart';
 
 @HiveType(typeId: 2)
-class Step {
-  Step({required this.stepId, required this.description});
+class ProductionStep {
+  ProductionStep({required this.stepId, required this.description});
 
   @HiveField(0)
   int stepId;

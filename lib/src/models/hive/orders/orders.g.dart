@@ -20,7 +20,7 @@ class OrderAdapter extends TypeAdapter<Order> {
       name: fields[0] as String,
       numOfBundles: fields[1] as int,
       numOfSteps: fields[2] as int,
-      steps: (fields[3] as List).cast<Step>(),
+      steps: (fields[3] as List).cast<ProductionStep>(),
       productions: (fields[4] as List).cast<Production>(),
     );
   }

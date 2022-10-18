@@ -18,7 +18,7 @@ class ProductionAdapter extends TypeAdapter<Production> {
     };
     return Production(
       productionId: fields[0] as int,
-      steps: (fields[2] as List).cast<Step>(),
+      steps: (fields[2] as List).cast<ProductionStep>(),
       timeStamp: fields[1] as DateTime,
       bundles: (fields[3] as List).cast<int>(),
     );
