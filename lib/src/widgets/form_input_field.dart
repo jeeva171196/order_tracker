@@ -7,10 +7,12 @@ class FormInputField extends StatelessWidget {
       required this.labelText,
       required this.keyboardType,
       required this.validator,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.onSaved});
   final String labelText;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
   final List<TextInputFormatter>? inputFormatters;
 
   @override
@@ -20,6 +22,7 @@ class FormInputField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       inputFormatters: inputFormatters,
+      onSaved: onSaved,
     );
   }
 }

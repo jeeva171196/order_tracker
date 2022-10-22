@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:order_tracker/src/features/orders/dashboard/screen/list.dart';
+import 'package:order_tracker/src/features/orders/services/orders.dart';
+import 'package:order_tracker/src/models/dummy.dart';
+import 'package:order_tracker/src/models/hive/orders/orders.dart';
 import 'package:order_tracker/src/utils/constants.dart';
 import 'package:order_tracker/src/utils/validator.dart';
 import 'package:order_tracker/src/widgets/form_input_field.dart';
@@ -18,20 +22,36 @@ class _OrdersStepFormState extends State<OrdersStepForm> {
 
   @override
   Widget build(BuildContext context) {
+    dynamic arguments = ModalRoute.of(context)!.settings.arguments;
+    DummyDetail orderDetail = arguments["orderDetail"];
+    Future<OrderService> orderService = arguments["orderService"];
     List<Widget> formElements = List<Widget>.generate(
-        10,
+        orderDetail.numOfSteps!,
         ((index) => FormInputField(
             labelText: "Step ${index + 1}",
             keyboardType: TextInputType.text,
+            onSaved: (String? value) {
+              if (orderDetail.steps != null) {
+                orderDetail.steps![index + 1] = value!;
+              }
+              orderDetail.steps = {index + 1: value!};
+            },
             validator: ((value) => validate(value, [VALIDATORS.empty])))));
 
     Widget bottomButton = ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_formKey.currentState!.validate()) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Processing Data')),
-          );
+          _formKey.currentState!.save();
+          Order order = Order.fromDummyDetail(orderDetail);
+          await (await orderService).addOrder(order);
+          // ignore: use_build_context_synchronously
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const OrdersList(title: titleOrderList)),
+              (Route<dynamic> route) => false);
         }
       },
       child: const Text('Create Order'),

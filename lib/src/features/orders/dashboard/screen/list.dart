@@ -114,7 +114,8 @@ class _OrdersListState extends State<OrdersList> {
               ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, "/order/detail/form"),
+        onPressed: () => Navigator.pushNamed(context, "/order/detail/form",
+            arguments: {"orderService": service}),
         tooltip: 'Add Create',
         child: const Icon(Icons.add),
       ),

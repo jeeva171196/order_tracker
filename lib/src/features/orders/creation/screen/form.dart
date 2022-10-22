@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:order_tracker/src/models/dummy.dart';
 import 'package:order_tracker/src/utils/constants.dart';
 import 'package:order_tracker/src/utils/validator.dart';
 import 'package:order_tracker/src/widgets/form_input_field.dart';
@@ -16,17 +17,25 @@ class OrdersDetailForm extends StatefulWidget {
 
 class _OrdersDetailFormState extends State<OrdersDetailForm> {
   final _formKey = GlobalKey<FormState>();
+  DummyDetail model = DummyDetail();
 
   @override
   Widget build(BuildContext context) {
+    dynamic arguments = ModalRoute.of(context)!.settings.arguments;
     List<Widget> listItems = [
       FormInputField(
           labelText: "Order Name",
           keyboardType: TextInputType.text,
+          onSaved: (String? value) {
+            model.name = value;
+          },
           validator: ((value) => validate(value, [VALIDATORS.empty]))),
       FormInputField(
           labelText: "Number of Bundles",
           keyboardType: TextInputType.number,
+          onSaved: (String? value) {
+            model.numOfBundles = int.parse(value!);
+          },
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly
           ],
@@ -35,6 +44,9 @@ class _OrdersDetailFormState extends State<OrdersDetailForm> {
       FormInputField(
           labelText: "Number of Steps",
           keyboardType: TextInputType.number,
+          onSaved: (String? value) {
+            model.numOfSteps = int.parse(value!);
+          },
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly
           ],
@@ -45,10 +57,14 @@ class _OrdersDetailFormState extends State<OrdersDetailForm> {
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_formKey.currentState!.validate()) {
+          _formKey.currentState!.save();
           // ScaffoldMessenger.of(context).showSnackBar(
           //   const SnackBar(content: Text('Processing Data')),
           // );
-          Navigator.pushNamed(context, "/order/step/form");
+          Navigator.pushNamed(context, "/order/step/form", arguments: {
+            "orderDetail": model,
+            "orderService": arguments["orderService"]
+          });
         }
       },
       child: const Text('Next'),

@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:order_tracker/src/models/dummy.dart';
 import 'package:order_tracker/src/models/hive/orders/production.dart';
 import 'package:order_tracker/src/models/hive/orders/step.dart';
 
@@ -44,5 +45,17 @@ class Order {
           ? productions.map((production) => production.toMap()).toList()
           : []
     };
+  }
+
+  static Order fromDummyDetail(DummyDetail data) {
+    return Order(
+        name: data.name!,
+        numOfBundles: data.numOfBundles!,
+        numOfSteps: data.numOfSteps!,
+        steps: data.steps!.keys
+            .map((key) =>
+                ProductionStep(stepId: key, description: data.steps![key]!))
+            .toList(),
+        productions: []);
   }
 }

@@ -29,7 +29,7 @@ class OrdersRepository implements IOrdersRepository {
   @override
   Future<void> insert(Order order) async {
     int id = (indexBox.get("lastIndex") ?? 0) + 1;
-    order = sampleOrderData("Order $id");
+    // order = sampleOrderData("Order $id");
     orderBox.put("order_$id", order);
     indexBox.put("lastIndex", id);
   }

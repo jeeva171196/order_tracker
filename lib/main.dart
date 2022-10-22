@@ -3,6 +3,7 @@ import 'package:order_tracker/src/features/orders/creation/screen/form.dart';
 import 'package:order_tracker/src/features/orders/creation/screen/step_from.dart';
 import 'package:order_tracker/src/features/orders/dashboard/screen/detail.dart';
 import 'package:order_tracker/src/features/orders/dashboard/screen/list.dart';
+import 'package:order_tracker/src/utils/constants.dart';
 
 import 'src/models/hive/hive.dart';
 
@@ -25,12 +26,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": ((context) => const OrdersList(title: 'List')),
-        "/detail": (context) => const OrdersDetail(title: "Details"),
+        "/": ((context) => const OrdersList(title: titleOrderList)),
+        "/detail": (context) => const OrdersDetail(title: titleOrderDetails),
         "/order/detail/form": (context) =>
-            const OrdersDetailForm(title: "Orders Detail Form"),
+            const OrdersDetailForm(title: titleOrderForm),
         "/order/step/form": (context) =>
-            const OrdersStepForm(title: "Orders Step From")
+            const OrdersStepForm(title: titleOrderStepForm)
       },
       debugShowCheckedModeBanner: false,
     );

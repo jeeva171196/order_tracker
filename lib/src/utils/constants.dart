@@ -5,6 +5,13 @@ const int maxAllowedBundles = 100;
 
 enum VALIDATORS { empty, bundles, steps }
 
+enum TITLES { orderList, orderDetail, orderForm, orderStepForm }
+
+const titleOrderList = "List";
+const titleOrderDetails = "Details";
+const titleOrderForm = "Orders Detail Form";
+const titleOrderStepForm = "Orders Step Form";
+
 Order sampleOrderData(String name) {
   return Order(name: name, numOfBundles: 2, numOfSteps: 2, steps: [
     ProductionStep(stepId: 1, description: "Test description 1"),
