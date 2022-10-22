@@ -1,22 +1,24 @@
 import 'package:hive/hive.dart';
 import 'package:order_tracker/src/models/hive/orders/orders.dart';
 import 'package:order_tracker/src/repositories/hive/orders/orders_interface.dart';
+import 'package:order_tracker/src/utils/constants.dart';
 
 class OrdersRepository implements IOrdersRepository {
   final Box<Order> orderBox;
+  final Box<int> indexBox;
 
-  OrdersRepository(this.orderBox);
+  OrdersRepository(this.orderBox, this.indexBox);
 
   @override
   Future<void> delete(String orderId) async {
+    // remove later
+    orderId = orderId.toLowerCase().replaceAll(' ', '_');
     orderBox.delete(orderId);
-    throw UnimplementedError();
   }
 
   @override
   Future<List<Order>> getAll() async {
-    // TODO: implement getAll
-    throw UnimplementedError();
+    return orderBox.values.toList(growable: false);
   }
 
   @override
@@ -25,8 +27,11 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   @override
-  Future<void> insert(String orderId, Order order) async {
-    orderBox.put(orderId, order);
+  Future<void> insert(Order order) async {
+    int id = (indexBox.get("lastIndex") ?? 0) + 1;
+    order = sampleOrderData("Order $id");
+    orderBox.put("order_$id", order);
+    indexBox.put("lastIndex", id);
   }
 
   @override
@@ -37,5 +42,6 @@ class OrdersRepository implements IOrdersRepository {
   @override
   Future<void> clear() async {
     orderBox.clear();
+    indexBox.clear();
   }
 }
