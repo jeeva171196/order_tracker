@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:order_tracker/src/models/hive/orders/orders.dart';
 
-class OrderListItem extends StatelessWidget {
-  const OrderListItem({super.key, required this.item, required this.onDelete});
+class ProductionListItem extends StatelessWidget {
+  const ProductionListItem(
+      {super.key, required this.item, required this.onDelete});
   final Order item;
   final Function(String orderId) onDelete;
 

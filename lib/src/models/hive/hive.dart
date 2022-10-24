@@ -10,7 +10,7 @@ Future<bool> setupHive() async {
   Hive
     ..init(documents.path)
     ..registerAdapter(OrderAdapter())
-    ..registerAdapter(StepAdapter())
+    ..registerAdapter(ProductionStepAdapter())
     ..registerAdapter(ProductionAdapter());
   return true;
 }

@@ -2,32 +2,41 @@ import 'package:hive/hive.dart';
 import 'package:order_tracker/src/models/dummy.dart';
 import 'package:order_tracker/src/models/hive/orders/production.dart';
 import 'package:order_tracker/src/models/hive/orders/step.dart';
+import 'package:order_tracker/src/utils/constants.dart';
 
 part 'orders.g.dart';
 
 @HiveType(typeId: 1)
 class Order {
   Order(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.numOfBundles,
       required this.numOfSteps,
       this.steps = const [],
-      this.productions = const []});
+      this.productions = const [],
+      this.status = 0});
 
   @HiveField(0)
-  String name;
+  String id;
 
   @HiveField(1)
-  int numOfBundles;
+  String name;
 
   @HiveField(2)
-  int numOfSteps;
+  int numOfBundles;
 
   @HiveField(3)
-  List<ProductionStep> steps;
+  int numOfSteps;
 
   @HiveField(4)
+  List<ProductionStep> steps;
+
+  @HiveField(5)
   List<Production> productions;
+
+  @HiveField(6)
+  int status;
 
   @override
   String toString() {
@@ -43,12 +52,14 @@ class Order {
           steps.isNotEmpty ? steps.map((step) => step.toMap()).toList() : [],
       'production': productions.isNotEmpty
           ? productions.map((production) => production.toMap()).toList()
-          : []
+          : [],
+      'status': status ?? 0
     };
   }
 
   static Order fromDummyDetail(DummyDetail data) {
     return Order(
+        id: data.id!,
         name: data.name!,
         numOfBundles: data.numOfBundles!,
         numOfSteps: data.numOfSteps!,
@@ -56,6 +67,7 @@ class Order {
             .map((key) =>
                 ProductionStep(stepId: key, description: data.steps![key]!))
             .toList(),
-        productions: []);
+        productions: [],
+        status: 0);
   }
 }

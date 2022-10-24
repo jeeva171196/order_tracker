@@ -6,7 +6,7 @@ part of 'step.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StepAdapter extends TypeAdapter<ProductionStep> {
+class ProductionStepAdapter extends TypeAdapter<ProductionStep> {
   @override
   final int typeId = 2;
 
@@ -38,7 +38,7 @@ class StepAdapter extends TypeAdapter<ProductionStep> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StepAdapter &&
+      other is ProductionStepAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

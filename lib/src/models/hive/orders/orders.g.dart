@@ -17,27 +17,30 @@ class OrderAdapter extends TypeAdapter<Order> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Order(
-      name: fields[0] as String,
-      numOfBundles: fields[1] as int,
-      numOfSteps: fields[2] as int,
-      steps: (fields[3] as List).cast<ProductionStep>(),
-      productions: (fields[4] as List).cast<Production>(),
+      id: fields[0] as String,
+      name: fields[1] as String,
+      numOfBundles: fields[2] as int,
+      numOfSteps: fields[3] as int,
+      steps: (fields[4] as List).cast<ProductionStep>(),
+      productions: (fields[5] as List).cast<Production>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Order obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.numOfBundles)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.numOfSteps)
+      ..write(obj.numOfBundles)
       ..writeByte(3)
-      ..write(obj.steps)
+      ..write(obj.numOfSteps)
       ..writeByte(4)
+      ..write(obj.steps)
+      ..writeByte(5)
       ..write(obj.productions);
   }
 

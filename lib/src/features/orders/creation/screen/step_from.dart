@@ -31,10 +31,10 @@ class _OrdersStepFormState extends State<OrdersStepForm> {
             labelText: "Step ${index + 1}",
             keyboardType: TextInputType.text,
             onSaved: (String? value) {
-              if (orderDetail.steps != null) {
-                orderDetail.steps![index + 1] = value!;
+              if (orderDetail.steps == null) {
+                orderDetail.steps = {index + 1: value!};
               }
-              orderDetail.steps = {index + 1: value!};
+              orderDetail.steps![index + 1] = value!;
             },
             validator: ((value) => validate(value, [VALIDATORS.empty])))));
 
@@ -43,6 +43,7 @@ class _OrdersStepFormState extends State<OrdersStepForm> {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
+          orderDetail.id = "temp";
           Order order = Order.fromDummyDetail(orderDetail);
           await (await orderService).addOrder(order);
           // ignore: use_build_context_synchronously
