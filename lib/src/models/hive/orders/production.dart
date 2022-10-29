@@ -8,7 +8,7 @@ part 'production.g.dart';
 class Production {
   Production(
       {required this.productionId,
-      required this.steps,
+      required this.step,
       required this.timeStamp,
       required this.bundles});
 
@@ -19,7 +19,7 @@ class Production {
   DateTime timeStamp;
 
   @HiveField(2)
-  List<ProductionStep> steps;
+  ProductionStep step;
 
   @HiveField(3)
   List<int> bundles;
@@ -29,12 +29,15 @@ class Production {
     return '$productionId';
   }
 
+  String totalBundles() {
+    return "Total number of bundles: ${bundles.length}";
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'productionId': productionId,
       'timeStamp': timeStamp.toString(),
-      'steps':
-          steps.isNotEmpty ? steps.map((step) => step.toMap()).toList() : [],
+      'steps': step.toMap(),
       'bundles': bundles,
     };
   }

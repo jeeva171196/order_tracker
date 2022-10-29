@@ -23,13 +23,14 @@ class OrderAdapter extends TypeAdapter<Order> {
       numOfSteps: fields[3] as int,
       steps: (fields[4] as List).cast<ProductionStep>(),
       productions: (fields[5] as List).cast<Production>(),
+      status: fields[6] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Order obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class OrderAdapter extends TypeAdapter<Order> {
       ..writeByte(4)
       ..write(obj.steps)
       ..writeByte(5)
-      ..write(obj.productions);
+      ..write(obj.productions)
+      ..writeByte(6)
+      ..write(obj.status);
   }
 
   @override

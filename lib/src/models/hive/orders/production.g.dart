@@ -18,7 +18,7 @@ class ProductionAdapter extends TypeAdapter<Production> {
     };
     return Production(
       productionId: fields[0] as int,
-      steps: (fields[2] as List).cast<ProductionStep>(),
+      step: fields[2] as ProductionStep,
       timeStamp: fields[1] as DateTime,
       bundles: (fields[3] as List).cast<int>(),
     );
@@ -33,7 +33,7 @@ class ProductionAdapter extends TypeAdapter<Production> {
       ..writeByte(1)
       ..write(obj.timeStamp)
       ..writeByte(2)
-      ..write(obj.steps)
+      ..write(obj.step)
       ..writeByte(3)
       ..write(obj.bundles);
   }

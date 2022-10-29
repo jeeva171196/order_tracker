@@ -14,7 +14,7 @@ class ProductionStep {
 
   @override
   String toString() {
-    return '$stepId - $description';
+    return 'Step $stepId';
   }
 
   Map<String, dynamic> toMap() {

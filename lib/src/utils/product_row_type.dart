@@ -1,42 +1,31 @@
+import 'package:order_tracker/src/models/hive/orders/production.dart';
+import 'package:order_tracker/src/models/hive/orders/step.dart';
+
 import '../models/hive/orders/orders.dart';
 
 class ProductRow {
   int id;
   Order orderData;
-  Map<int, bool> stepMap = {};
+  Production production;
   Map<int, bool> bundleMap = {};
-  String stepLabel = "-";
+  ProductionStep step;
   String bundleLabel = "-";
+  DateTime timeStamp = DateTime.now();
 
-  ProductRow({required this.id, required this.orderData}) {
-    initStepMap();
+  ProductRow(
+      {required this.id,
+      required this.orderData,
+      required this.production,
+      required this.step}) {
     initBundleMap();
-  }
-
-  void initStepMap() {
-    for (var step in orderData.steps) {
-      stepMap[step.stepId] = false;
-    }
-    updateStepLabel();
   }
 
   void initBundleMap() {
     List.generate(orderData.numOfBundles, ((index) {
-      bundleMap[index + 1] = false;
+      bundleMap[index + 1] = production.bundles.contains(index + 1);
       return index + 1;
     }));
     updateBundleLabel();
-  }
-
-  void updateStepLabel() {
-    var temp = "";
-    stepMap.forEach((k, v) {
-      if (v) {
-        temp += "$k,";
-      }
-    });
-
-    stepLabel = temp == "" ? "-" : temp.replaceFirst(",", "", temp.length - 1);
   }
 
   void updateBundleLabel() {

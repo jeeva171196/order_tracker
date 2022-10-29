@@ -43,6 +43,18 @@ class Order {
     return name;
   }
 
+  Map<int, int> totalBundlesCompleted() {
+    Map<int, int> temp = {};
+    for (var element in steps) {
+      temp[element.stepId] = 0;
+    }
+    for (var element in productions) {
+      temp[element.step.stepId] =
+          temp[element.step.stepId]! + element.bundles.length;
+    }
+    return temp;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

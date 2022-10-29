@@ -5,13 +5,20 @@ import '../../../repositories/repositories.dart';
 
 class OrderService {
   static Future<OrderService> getObject() async {
+    if (OrderService.repo != null) {
+      return OrderService.repo!;
+    }
     var ordersBox = await Hive.openBox<Order>('OrdersBox');
     var indexBox = await Hive.openBox<int>('IndexBox');
-    return OrderService(ordersBox, OrdersRepository(ordersBox, indexBox));
+    OrderService.repo =
+        OrderService(ordersBox, OrdersRepository(ordersBox, indexBox));
+    return OrderService.repo!;
   }
 
   final Box<Order> orderBox;
   final OrdersRepository _ordersRepo;
+
+  static OrderService? repo;
 
   OrderService(this.orderBox, this._ordersRepo);
 
