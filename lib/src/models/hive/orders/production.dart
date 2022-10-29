@@ -10,7 +10,7 @@ class Production {
       {required this.productionId,
       required this.steps,
       required this.timeStamp,
-      this.bundles = const []});
+      required this.bundles});
 
   @HiveField(0)
   int productionId;

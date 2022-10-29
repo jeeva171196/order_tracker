@@ -22,6 +22,15 @@ class _OrdersDetailState extends State<OrdersDetail> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: IconButton(
+                    tooltip: 'Save Data',
+                    onPressed: () {},
+                    icon: const Icon(Icons.save_outlined)),
+              )
+            ],
             title: Text(widget.title),
             bottom: const TabBar(
               tabs: [
